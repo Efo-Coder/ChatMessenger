@@ -1,0 +1,115 @@
+/* static/css/style.css */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #f8f9fa;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.header-divider {
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0;
+}
+
+.chat-container {
+    padding-bottom: 80px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.input-form-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 15px 30px;
+    border-top: 1px solid #ccc;
+}
+
+.card {
+    display: inline-block;
+    max-width: 100%;
+    border-radius: 15px;
+    word-wrap: break-word;
+    word-break: break-word;
+    position: relative;
+}
+
+.card-body {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+}
+
+.logout-btn {
+    margin-top: -1px;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #393939;
+    position: absolute;
+    right: 0.4rem;
+    bottom: -0.1rem;
+}
+
+
+
+/* Dark-Mode */
+.dark-mode .header {
+    background-color: #1a1a1a;
+    border-color: #444;
+}
+
+.dark-mode .message-time {
+    color: #bbb;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+    transition: all 0.3s ease;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-mode .card {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    border-color: #333;
+}
+
+.dark-mode .input-group,
+.dark-mode .form-control,
+.dark-mode .btn {
+    background-color: #222;
+    color: #fff;
+    border-color: #444;
+}
