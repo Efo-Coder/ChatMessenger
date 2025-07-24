@@ -12,10 +12,11 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+<audio id="send-sound" src="{{ url_for('static', filename='sounds/message.mp3') }}"></audio>
 
 <body>
     <!-- HEADER -->
-    <div class="header">
+    <div class="header-chat">
 
         <div class="header-left">
             <img src="{{ url_for('static', filename='images/messenger.png') }}" alt="Messenger Icon"
@@ -41,7 +42,7 @@
                 <div>
                     {% if show_user %}
                         <div class="small text-muted mb-1 {{ 'text-end' if message.user == current_user else 'text-start' }}">
-                            {{ message.user }}
+                            <span class="username">{{ message.user }}</span>
                         </div>
                     {% endif %}
                     <div class="card {{ 'bg-primary text-white' if message.user == current_user else 'bg-light' }}">
@@ -63,63 +64,75 @@
                 autocomplete="off">
 
             <!-- Senden-Button mit eigenem Namen -->
-            <button class="btn btn-outline-secondary" type="submit" name="send" value="true">Send</button>
+            <button class="btn btn-outline-secondary send-btn" type="submit" name="action" value="send">Send</button>
 
             <!-- Clear-Button mit eigenem Namen -->
-            <button class="btn btn-outline-danger" type="submit" name="clear" value="true">Clear</button>
+            <button class="btn btn-outline-danger clear-btn" type="submit" name="action" value="clear">Clear</button>
         </form>
 
     </div>
 
     <script>
-        // Autoscroll to latest message
-        window.onload = function () {
-            const chatContainer = document.getElementById("chat-container");
-            const inputField = document.getElementById("message-input");
+    // ========== AUTOLOAD & DARK MODE INITIALISIERUNG ==========
+    window.onload = function () {
+        const chatContainer = document.getElementById("chat-container");
+        const inputField = document.getElementById("message-input");
 
-            if (chatContainer) {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }
-
-            if (inputField) {
-                inputField.focus()
-            }
-        };
-
-        // Optional: Focus nach Senden erhalten
-        const form = document.getElementById("message-form");
-        const input = document.getElementById("message-input");
-
-        if (form && input) {
-            form.addEventListener("submit", function () {
-                setTimeout(() => { input.focus(); }, 100);
-            });
-        }
-    </script>
-    <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-            localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode"));
+        if (chatContainer) {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // Zustand aus localStorage laden
-        window.onload = function () {
-            const chatContainer = document.getElementById("chat-container");
-            const inputField = document.getElementById("message-input");
+        if (inputField) {
+            inputField.focus();
+        }
 
-            if (chatContainer) {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+        // Dark Mode beim Laden aktivieren, wenn gespeichert
+        if (localStorage.getItem("dark-mode") === "true") {
+            document.body.classList.add("dark-mode");
+        }
+    };
+
+    // ========== DARK MODE TOGGLE ==========
+    function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode"));
+    }
+
+    // ========== SENDEN & SOUNDEFFEKT & ENTER-KEY ==========
+    const form = document.getElementById("message-form");
+    const input = document.getElementById("message-input");
+    const sound = document.getElementById("send-sound");
+
+    if (form && input && sound) {
+        form.addEventListener("submit", function () {
+            if (sound && typeof sound.play === "function") {
+                sound.play().catch((e) => {
+                    console.warn("Sound konnte nicht abgespielt werden:", e);
+                });
             }
 
-            if (inputField) {
-                inputField.focus();
-            }
+            setTimeout(() => {
+                input.focus();
+            }, 100);
+        });
 
-            if (localStorage.getItem("dark-mode") === "true") {
-                document.body.classList.add("dark-mode");
+        input.addEventListener("keypress", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+
+                // ⬅️ Dieses Hidden-Input-Feld wird angelegt, um die action zu übergeben
+                let hidden = document.createElement("input");
+                hidden.type = "hidden";
+                hidden.name = "action";
+                hidden.value = "send";
+                form.appendChild(hidden);
+
+                form.requestSubmit(); // Enter gedrückt → Senden
             }
-        };
+        });
+    }
     </script>
+
 </body>
 
 </html>

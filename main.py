@@ -54,19 +54,23 @@ def logout():
 
 @app.route("/<name>", methods=['GET', 'POST'])
 def start_page(name):
+    print("FORM-DATEN:", request.form)
     if 'username' not in session or session['username'] != name:
         flash("Bitte zuerst einloggen!", "warning")
         return redirect(url_for('login'))
+    
     if request.method == 'POST':
+        print("POST REQUEST ERKANNT:", request.form)
+        action = request.form.get('action')
         content = request.form.get('content')
 
-        if 'send' in request.form:
+        if action == 'send':
             if content and content.strip():
                 new_message = Message(user=name, content=content.strip())
                 db.session.add(new_message)
                 db.session.commit()
 
-        elif 'clear' in request.form:
+        elif action == 'clear':
             Message.query.delete()
             db.session.commit()
 

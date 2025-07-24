@@ -1,16 +1,19 @@
 /* static/css/style.css */
-.header {
+
+/* Kopfzeile im Chat*/
+.header-chat {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #f8f9fa;
+    background-image: linear-gradient(#c9fdea, #a8e4fd);
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Kopfzeile */
 .header-left {
     display: flex;
     align-items: center;
@@ -58,6 +61,7 @@
     position: relative;
 }
 
+
 .card-body {
     padding: 10px 15px;
     display: flex;
@@ -77,39 +81,82 @@
     bottom: -0.1rem;
 }
 
+::placeholder {
+    color: #bbb;
+    font-style: italic;
+}
 
 
 /* Dark-Mode */
-.dark-mode .header {
-    background-color: #1a1a1a;
-    border-color: #444;
-}
-
-.dark-mode .message-time {
-    color: #bbb;
+.dark-mode .header-chat {
+    color: #ffffff;
+    background-image: linear-gradient(#000000, #424242);
+    border-color: #b7b7b7;
 }
 
 body {
     background-color: #f8f9fa;
-    color: #212529;
+    color: #3b3b3b;
     transition: all 0.3s ease;
 }
 
+/* Chat-Fenster Allgemein */
 .dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #3b3b3b; /* Body */
+    color: #e7e7e7;            /* Title */
+}
+
+.dark-mode .header-icon {
+    filter: invert(100%)
 }
 
 .dark-mode .card {
-    background-color: #1e1e1e;
-    color: #e0e0e0;
+    background-color: #d01f1f;
+    color: #505050;
     border-color: #333;
 }
 
-.dark-mode .input-group,
-.dark-mode .form-control,
+
+
+.dark-mode .input-form-container {
+    background-color: #3b3b3b;
+}
+
+.dark-mode .form-control {
+    background-color: #3b3b3b;
+    color: #edecec;
+}
+
+/* Buttons Allgemein */
 .dark-mode .btn {
-    background-color: #222;
+    background-color: #3b3b3b;
     color: #fff;
     border-color: #444;
+}
+
+/* Logout Button */
+.dark-mode .logout-btn {
+    background-color: #ff5f5f;
+    color: #fff;
+    border-color: #444;
+}
+
+/* Clear Button */
+.dark-mode .clear-btn {
+    background-color: #ff5f5f;
+    color: #fff;
+    border-color: #444;
+}
+
+/* Zeitangabe */
+.dark-mode .message-time {
+    color: #bbb;
+}
+
+.dark-mode .username {
+    color: #b4b4b4;  /* z. B. hellblau für Namen im Dark Mode */
+}
+
+.dark-mode ::placeholder {
+    color: #b1b1b1;
 }
